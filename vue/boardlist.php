@@ -56,7 +56,7 @@ $paging = new Paging($params);
 <body>
 <div>
     <div>
-<table>
+<table style="border-collapse: collapse">
     <colgroup>
         <col style="width: 15%;">
         <col style="width:30%;">
@@ -83,16 +83,20 @@ $paging = new Paging($params);
             $boardSeq = !empty($value['B_SEQ']) ? $value['B_SEQ'] : ''; // 뉴스시퀀스
             echo <<<TR
 
-<tr>
+<tr style="border-bottom: 1px solid red">
 <td>{$i}</td>
-<td>
- <a href="board_detail.php?boardSeq={$boardSeq}">
-                                            {$title}
-                                        </a>
+<td >
+ <a href="board_detail.php?boardSeq={$boardSeq}">{$title}</a>
 </td>
 <td>{$contents}</td>
+<td><button onclick='redirectToWriteForm({$boardSeq})'>글쓰기</button></td>
 </tr>
-
+<script>
+function redirectToWriteForm(boardSeq) {
+    var url = './board_write_form.html?boardSeq=' + boardSeq;
+    window.location.href = url;
+}
+</script>
 
 
 TR;
