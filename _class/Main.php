@@ -157,6 +157,25 @@ class Main
         return true;
       
     }
+    
+    public function boardDelete($params)
+    {
+        
+        // 새로운 글쓰기의 경우 => 바로 insert
+        
+        
+        // 아닐경우 그룹넘버넣고, 답글의 경우. 그러니까
+        $query = "
+            UPDATE tb_board SET
+               USE_YN ='N'
+            WHERE
+            B_SEQ = {$params['seq']}
+    ";
+        $this->db->query($query);
+        
+        return true;
+        
+    }
     public function newInsertDepth1($params)
     {
     

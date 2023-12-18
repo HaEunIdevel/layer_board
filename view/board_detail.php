@@ -23,7 +23,7 @@
 <div>{$data['B_TITLE']}</div>
 <div>{$data['B_CONTENTS']}</div>
 <button onclick="location.href='board_edit.php?boardSeq={$boardSeq}'">수정하기</button>
-<button>삭제하기</button>
+<button onclick="location.href='../api/board_delete.php?boardSeq={$boardSeq}'">삭제하기</button>
 </section>
 END;
 if($data['B_INDENT'] > 0){

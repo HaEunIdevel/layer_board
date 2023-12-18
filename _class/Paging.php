@@ -144,10 +144,10 @@ class Paging
             $prev_block = 1;
         }
 
-        $list = '<li><a class="page-link first" href="' . $output . '?' . $this->tails . '&page=' . 1 . '" aria-label="Previous"></a></li>'; // 처음으로
+        $list = '<span><a class="page-link first" href="' . $output . '?' . $this->tails . '&page=' . 1 . '" aria-label="Previous"></a></span>'; // 처음으로
 
         //$list = '<button type="button" onclick="location.href=\'' . $_SERVER['PHP_SELF'] . '?' . $this->tails . '&page=' . $prev_block . '\'" class="img"><</a> ';
-        $list .= '<li><a class="page-link prev" href="' . $output . '?' . $this->tails . '&page=' . $prev_block . '" onclick="" aria-label="Previous"></a></li>';
+        $list .= '<span><a class="page-link prev" href="' . $output . '?' . $this->tails . '&page=' . $prev_block . '" onclick="" aria-label="Previous"></a></span>';
         // 목록
         for ($i = 1; $i <= $this->scale && $this->start_page <= $this->page_max; $i++, $this->start_page++) {
             // 변수 정리
@@ -166,11 +166,11 @@ class Paging
 
             if ($this->start_page == $this->page) {
                 //                $list   .= "<button type=\"button\" $pageclass onclick=\"go_url('{$url}');\">{$this->start_page}</button>";
-                $list .= '<li><a class="page-link' . $pageclass . '" href="' . $url . '">' . $this->start_page . '</a></li>';
+                $list .= '<span><a class="page-link' . $pageclass . '" href="' . $url . '">' . $this->start_page . '</a></span>';
 
             } else {
                 //                $list   .= "<button type=\"button\" $pageclass onclick=\"go_url('{$url}');\">{$this->start_page}</button>";
-                $list .= '<li><a class="page-link' . $pageclass . '" href="' . $url . '">' . $this->start_page . '</a></li>';
+                $list .= '<span><a class="page-link' . $pageclass . '" href="' . $url . '">' . $this->start_page . '</a></span>';
             }
         }
         // 다음
@@ -179,13 +179,13 @@ class Paging
             $next_block = $next_block - 1;
         }
         //$list .= ' <button type="button" onclick="location.href=\'' . $_SERVER['PHP_SELF'] . '?' . $this->tails . '&page=' . $next_block . '\'" class="img">></button>';
-        $list .= '<li><a class="page-link next" href="' . $output . '?' . $this->tails . '&page=' . $next_block . '" aria-label="Next"></a></li>';
+        $list .= '<span><a class="page-link next" href="' . $output . '?' . $this->tails . '&page=' . $next_block . '" aria-label="Next"></a></span>';
 
 
         $lastPage = ceil($this->total / $this->scale); // 마지막 페이지계산
 
         // 마지막으로
-        $list .= '<li><a class="page-link end" href="' . $output . '?' . $this->tails . '&page=' . $lastPage . '" aria-label="Next"></a></li>'; // 처음으로
+        $list .= '<span><a class="page-link end" href="' . $output . '?' . $this->tails . '&page=' . $lastPage . '" aria-label="Next"></a></span>'; // 처음으로
 
         return $list;
     }
