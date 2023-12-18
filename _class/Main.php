@@ -22,7 +22,6 @@ class Main
         $where = '';
         $offset = !empty($params['offset']) ? $params['offset'] : 0;
         $limit = !empty($params['limit']) ? $params['limit'] : 10;
-        $keyword = !empty($params['keyword']) ? $params['keyword'] : '';
 
 
         $query = "
@@ -30,8 +29,7 @@ class Main
                 *
             FROM TB_BOARD
             WHERE USE_YN = 'Y'
-            {$where}
-            ORDER BY CREATED_AT DESC
+          ORDER BY  B_GROUP_ID ASC, B_STEP ASC
             LIMIT {$offset}, {$limit}
         ";
         $result = $this->db->query($query);
@@ -140,7 +138,62 @@ class Main
         $this->db->query($update_grp_id);
         return true;
     }
-
+    public function boardEdit($params)
+    {
+        
+        // 새로운 글쓰기의 경우 => 바로 insert
+        
+        
+        // 아닐경우 그룹넘버넣고, 답글의 경우. 그러니까
+        $query = "
+            UPDATE tb_board SET
+                B_CONTENTS = '{$params['cont']}',
+                B_TITLE = '{$params['title']}'
+            WHERE
+            B_SEQ = {$params['seq']}
+    ";
+        $this->db->query($query);
+        
+        return true;
+      
+    }
+    public function newInsertDepth1($params)
+    {
+    
+        $query = "
+            INSERT INTO tb_board
+                ( B_CONTENTS, B_TITLE)
+            VALUES
+                ('{$params['cont']}','{$params['title']}')
+    ";
+        $this->db->query($query);
+        
+        $group_id = $this->db->insert_id;
+        $update = "
+                UPDATE TB_BOARD SET
+                B_GROUP_ID = {$params['seq']},
+                B_INDENT = B_INDENT + 1,
+                B_STEP = B_STEP + 1
+                WHERE B_SEQ = '{$group_id}'
+        ";
+        $this->db->query($update);
+        return true;
+    }
+    
+    public function newInsertDepth1_1($params)
+    {
+        
+        $query = "
+            INSERT INTO tb_board
+                ( B_GROUP_ID,B_INDENT,B_STEP,B_CONTENTS, B_TITLE)
+            VALUES
+                ('{$params['child_id']}','{$params['child_indent']}','{$params['child_step']}','{$params['cont']}','{$params['title']}')
+    ";
+        $this->db->query($query);
+        
+       
+        return true;
+    }
     // 20230613 김지수 (뉴스상세)
     public function newsDetail($newsSeq)
     {
@@ -154,13 +207,12 @@ class Main
         return $result->fetch_assoc();
     }
 
-    public function newsDetailEn($newsSeq)
+    public function boarDetail($boardSeq)
     {
-        $newsSeq = !empty($newsSeq) ? $newsSeq : 0;
         $query = "
-        SELECT * 
-        FROM NEWS_EN
-        WHERE NEWS_SEQ = $newsSeq
+            SELECT *
+            FROM tb_board
+            WHERE B_SEQ = '{$boardSeq}'
         ";
         $result = $this->db->query($query);
         return $result->fetch_assoc();

@@ -52,6 +52,11 @@ $paging = new Paging($params);
 <head>
     <meta charset="UTF-8">
     <title>게시판 목록</title>
+    <style>
+        .indent {
+            margin-left: 10px; /* 들여쓰기 크기 조절 */
+        }
+    </style>
 </head>
 <body>
 <div>
@@ -73,43 +78,30 @@ $paging = new Paging($params);
     </thead>
     <tbody>
     <?php
-    if(!empty($boardList)) {
-        $no = $total - $offset;
-        $i = 1;
-        foreach ($boardList as $value) {
-            $title = !empty($value['B_TITLE']) ? $value['B_TITLE'] : ''; // 제목
-            $contents = !empty($value['B_CONTENTS']) ? $value['B_CONTENTS'] : ''; // 제목
-            $createdAt = !empty($value['CREATED_AT']) ? $value['CREATED_AT'] : ''; // 등록일
-            $boardSeq = !empty($value['B_SEQ']) ? $value['B_SEQ'] : ''; // 뉴스시퀀스
-            echo <<<TR
-
-<tr style="border-bottom: 1px solid red">
-<td>{$i}</td>
-<td >
- <a href="board_detail.php?boardSeq={$boardSeq}">{$title}</a>
-</td>
-<td>{$contents}</td>
-<td><button onclick='redirectToWriteForm({$boardSeq})'>글쓰기</button></td>
-</tr>
-<script>
-function redirectToWriteForm(boardSeq) {
-    var url = './board_write_form.html?boardSeq=' + boardSeq;
-    window.location.href = url;
-}
-</script>
-
-
-TR;
-
-
-
-            $i++;
-
+        if (!empty($boardList)) {
+            $no = $total - $offset;
+            $i = 1;
+            foreach ($boardList as $value) {
+                $title = !empty($value['B_TITLE']) ? $value['B_TITLE'] : ''; // 제목
+                $contents = !empty($value['B_CONTENTS']) ? $value['B_CONTENTS'] : ''; // 내용
+                $createdAt = !empty($value['CREATED_AT']) ? $value['CREATED_AT'] : ''; // 등록일
+                $boardSeq = !empty($value['B_SEQ']) ? $value['B_SEQ'] : ''; // 뉴스 시퀀스
+                $depth = !empty($value['B_INDENT']) ? $value['B_INDENT'] : 0; // 깊이
+                
+                // 들여쓰기를 위한 HTML 공백 생성
+                $indent = str_repeat('<span class="indent"></span>', $depth);
+                
+                echo <<<TR
+                        <tr style="border-bottom: 1px solid red">
+                            <td>{$i}</td>
+                            <td>{$indent}<a href="board_detail.php?boardSeq={$boardSeq}">{$title}</a></td>
+                            <td>{$contents}</td>
+                        </tr>
+                TR;
+                
+                $i++;
+            }
         }
-
-
-    }
-
     ?>
 
     </tbody>

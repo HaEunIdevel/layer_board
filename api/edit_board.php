@@ -7,14 +7,16 @@ require_once __DIR__ . '/../_class/Main.php';
 
 
 try {
+    $boardSeq = !empty($_GET['boardSeq']) ? $_GET['boardSeq'] :'';
+    echo $boardSeq;
     // 변수 정리
-    $msg = '게시물 등록중 오류가 발생했습니다. 관리자에게 문의해 주세요.';
+    $msg = '게시물 수정 중 오류가 발생했습니다. 관리자에게 문의해 주세요.';
     $code = 500;
     $arrRtn = array(
         'msg' => $msg,
         'code' => $code
     );
-
+    
     $main = new Main();
     $title = !empty($_POST['intitle']) ? $_POST['intitle'] : '';
     $contents = !empty($_POST['contents']) ? $_POST['contents'] : '';
@@ -23,13 +25,14 @@ try {
     $newsParams = array(
         'title' =>  $title, //제목
         'cont'  =>  $contents, //내용
+        'seq'  => $boardSeq
     );
 
     
-    $rtn = $main->newInsert($newsParams);
+    $rtn = $main->boardEdit($newsParams);
     if (!$rtn) {
         $code   = 502;
-        $msg    = "게시물 등록 중 오류가 발생하였습니다.(code {$code})\n관리자에게 문의해 주세요.";
+        $msg    = "게시물 수정 중 오류가 발생하였습니다.(code {$code})\n관리자에게 문의해 주세요.";
         throw new mysqli_sql_exception($msg, $code);
     }
 
