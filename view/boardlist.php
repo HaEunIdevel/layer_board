@@ -94,7 +94,7 @@ $paging = new Paging($params);
                 echo <<<TR
                         <tr style="border-bottom: 1px solid red">
                             <td>{$i}</td>
-                            <td>{$indent}<a href="board_detail.php?boardSeq={$boardSeq}">{$title}</a></td>
+                            <td>{$indent}<a href="board_detail.php?boardSeq={$boardSeq}&indent={$depth}">{$title}</a></td>
                             <td>{$contents}</td>
                         </tr>
                 TR;

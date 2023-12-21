@@ -166,11 +166,15 @@ class Main
         
         // 아닐경우 그룹넘버넣고, 답글의 경우. 그러니까
         $query = "
-            UPDATE tb_board SET
-               USE_YN ='N'
-            WHERE
-            B_SEQ = {$params['seq']}
-    ";
+        UPDATE tb_board
+        SET USE_YN ='N'
+        WHERE
+            (
+                B_GROUP_ID = {$params['seq']}
+                 AND B_INDENT < {$params['indent']}
+                )
+";
+      
         $this->db->query($query);
         
         return true;

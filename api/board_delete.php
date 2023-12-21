@@ -8,6 +8,7 @@ require_once __DIR__ . '/../_class/Main.php';
 
 try {
     $boardSeq = !empty($_GET['boardSeq']) ? $_GET['boardSeq'] :'';
+    $indent = !empty($_GET['indent']) ? $_GET['indent'] :''; // depth
     // 변수 정리
     $msg = '게시물 삭제 중 오류가 발생했습니다. 관리자에게 문의해 주세요.';
     $code = 500;
@@ -20,7 +21,8 @@ try {
 
     $method     = 'POST';
     $newsParams = array(
-        'seq'  => $boardSeq
+        'seq'  => $boardSeq,
+        'indent' => $indent
     );
 
     
